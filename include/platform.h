@@ -32,5 +32,7 @@
 #endif
 
 void platform_sleep(int t);
+int platform_statedir(void);
+void platform_abspath(char *path, size_t size);
 
 #endif

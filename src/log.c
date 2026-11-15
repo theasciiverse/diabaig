@@ -9,9 +9,9 @@ void _log(const char *fmt,...)
 	if(verbose)
 	{
 		va_start(ap,fmt);
-		if((fp=fopen("/tmp/diabaig.log","a"))==NULL)
+		if((fp=fopen("diabaig.log","a"))==NULL)
 		{
-			perror("/tmp/diabaig.log");
+			perror("diabaig.log");
 		}
 		vsnprintf(_logmsg,1028,fmt,ap);
 		fprintf(fp,"%s\n",_logmsg);

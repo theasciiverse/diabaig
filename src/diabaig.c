@@ -2,7 +2,7 @@
 
 void init()
 {
-	if(verbose) fclose(fopen("/tmp/diabaig.log","w"));
+	if(verbose) fclose(fopen("diabaig.log","w"));
 
 //#ifdef WINDOWS
 //	pdc_font="vga437.ttf";

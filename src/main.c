@@ -42,6 +42,11 @@ int main(int argc, char *argv[])
 	argc--;
 	argv++;
 
+	// keep files named on the command line, then move to the state folder
+	if(loadfile[0]) platform_abspath(loadfile,1028);
+	if(strcmp(scorefile,"diabaig.scr")) platform_abspath(scorefile,1028);
+	platform_statedir();
+
 	srand(seed);
 	init();
 
