@@ -50,6 +50,8 @@ case $platform in
     if [ ! -f "$pdc/wincon/pdcurses.a" ]; then
       curl -fsSL https://github.com/wmcbrine/PDCurses/archive/refs/tags/3.9.tar.gz | tar -xz -C build
       make -C "$pdc/wincon" CC=cc pdcurses.a
+      # Diabaig includes <pdcurses.h>, the name MSYS2 installs curses.h under
+      printf '#include "curses.h"\n' > "$pdc/pdcurses.h"
     fi
     make -j4 PLATFORM=windows CC="cc -std=gnu17 -I$pdc" LDLIBS="-static $pdc/wincon/pdcurses.a -lm" build/windows/diabaig.exe
     strip build/windows/diabaig.exe ;;
