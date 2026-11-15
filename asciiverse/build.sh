@@ -5,8 +5,8 @@
 #            (fully static against Alpine's ncurses; reads the system's terminfo)
 #   macOS:   sh asciiverse/build.sh  (links the system's ncurses)
 #   Windows: sh asciiverse/build.sh  in an MSYS2 UCRT64 or CLANGARM64 shell
-#            with pdcurses installed (static PDCurses, as upstream's
-#            toolchain/windows.mk uses)
+#            (static PDCurses wincon 3.9, built from source here, as
+#            upstream's own CI did)
 #
 # The Makefile regenerates build/data_embedded.h with `echo "...\n"`,
 # which only works where sh's echo expands \n. src/data_embedded.c is
@@ -44,6 +44,13 @@ case $platform in
     make -j4 CC="clang -std=gnu17" build/macos/diabaig
     strip build/macos/diabaig ;;
   windows)
-    make -j4 PLATFORM=windows CC="cc -std=gnu17" LDLIBS="-static -lpdcurses -lm" build/windows/diabaig.exe
+    # PDCurses' console port (wincon), built here: MSYS2's pdcurses
+    # package is the WinGUI port, which opens a window of its own
+    pdc=build/PDCurses-3.9
+    if [ ! -f "$pdc/wincon/pdcurses.a" ]; then
+      curl -fsSL https://github.com/wmcbrine/PDCurses/archive/refs/tags/3.9.tar.gz | tar -xz -C build
+      make -C "$pdc/wincon" CC=cc pdcurses.a
+    fi
+    make -j4 PLATFORM=windows CC="cc -std=gnu17 -I$pdc" LDLIBS="-static $pdc/wincon/pdcurses.a -lm" build/windows/diabaig.exe
     strip build/windows/diabaig.exe ;;
 esac

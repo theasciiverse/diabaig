@@ -7,7 +7,7 @@
 # Tags look like v1.0.1-av.1: upstream's version, then our packaging
 # release. Linux builds are fully static (Alpine, ncurses linked in);
 # macOS builds run natively on a runner of each architecture against the
-# system's ncurses; Windows builds use MSYS2 with static PDCurses, as
+# system's ncurses; Windows builds use MSYS2 with static PDCurses wincon, as
 # upstream's toolchain/windows.mk does. A target that fails to build is
 # left out of the release rather than holding back the others.
 
@@ -104,7 +104,7 @@ jobs:
       - uses: msys2/setup-msys2@v2
         with:
           msystem: ${{ matrix.msystem }}
-          install: make zip ${{ matrix.pkg }}-cc ${{ matrix.pkg }}-pdcurses
+          install: make zip curl tar ${{ matrix.pkg }}-cc
       - name: Build
         run: |
           sh asciiverse/build.sh

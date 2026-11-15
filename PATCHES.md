@@ -39,8 +39,10 @@ asks for a terminal of at least 79x34 and waits until it has one).
   matches `res/`, so it is only touched, not regenerated.
 - Linux links ncurses statically in Alpine (`-static -lncursesw`), so the
   binary needs nothing installed; it reads the system's terminfo. macOS
-  links the system ncurses. Windows links PDCurses statically from MSYS2,
-  the library upstream's `toolchain/windows.mk` names.
+  links the system ncurses. Windows links PDCurses 3.9's console port
+  (wincon) statically, built from source in `asciiverse/build.sh`, the
+  library upstream's `toolchain/windows.mk` names; MSYS2's own pdcurses
+  package is the WinGUI port, which opens a window instead.
 
 ## Packaging
 
